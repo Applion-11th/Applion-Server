@@ -48,3 +48,6 @@ source venv/Scripts/activate
 ```
 cd Applion-Server
 source venv/bin/activate
+```
+### 2. 환경 변수 설정
+manage.py가 있는 폴더 내에 .env 파일을 생성해 노션에 있는 환경변수 값을 넣어준다.
