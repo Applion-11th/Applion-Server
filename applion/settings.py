@@ -23,7 +23,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -54,20 +53,30 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'user.User'
-
 REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+AUTH_USER_MODEL = 'user.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # username 필드 사용 x
 ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
 ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # 회원가입 과정에서 이메일 인증 사용 X
+ACCOUNT_EMAIL_VERIFICATION = "none"  # 회원가입 과정에서 이메일 인증 사용 X
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근
+        # 'rest_framework.permissions.IsAdminUser', # 관리자만 접근
+        'rest_framework.permissions.AllowAny',  # 누구나 접근
+    ),
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "user.serializers.SignupSerializer"
 }
 
 # 추가적인 JWT 설정, 다 쓸 필요는 없지만 혹시 몰라서 다 넣었다.
@@ -169,7 +178,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
