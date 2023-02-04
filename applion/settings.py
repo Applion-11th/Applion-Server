@@ -79,6 +79,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "user.serializers.SignupSerializer"
 }
 
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "user.serializers.DetailSerializer"
+}
+
 # 추가적인 JWT 설정, 다 쓸 필요는 없지만 혹시 몰라서 다 넣었다.
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),

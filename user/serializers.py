@@ -1,3 +1,5 @@
+from dataclasses import fields
+from .models import User
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -49,3 +51,10 @@ class SignupSerializer(serializers.Serializer):
         user.save()
         setup_user_email(request, user, [])
         return user
+
+
+class DetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'name', 'student_num',
+                  'major', 'phone_num', 'position')
