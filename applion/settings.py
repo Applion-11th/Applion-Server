@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 
     # application
     'user.apps.UserConfig',
-    'kakao.apps.KakaoConfig',
+    'kakaouser.apps.KakaouserConfig',
 
     # allauth
     'allauth',
