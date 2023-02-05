@@ -5,4 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/', include("user.urls")),
     path('api/user/', include("allauth.urls")),
+    path('api/user/', include("kakaouser.urls")),
 ]

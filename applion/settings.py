@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
