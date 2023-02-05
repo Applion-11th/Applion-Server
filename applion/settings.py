@@ -10,8 +10,6 @@ dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
-KAKAO_REST_API_KEY = os.environ['KAKAO_REST_API_KEY']
-KAKAO_ADMIN_KEY = os.environ['KAKAO_ADMIN_KEY']
 SOCIAL_AUTH_KAKAO_CLIENT_ID = os.environ['SOCIAL_AUTH_KAKAO_CLIENT_ID']
 SOCIAL_AUTH_KAKAO_SECRET = os.environ['SOCIAL_AUTH_KAKAO_SECRET']
 SECRET_KEY = os.environ['SECRET_KEY']
@@ -51,7 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
 ]
 
-SITE_ID = 2
+SITE_ID = 1
 
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
