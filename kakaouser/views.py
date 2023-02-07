@@ -9,16 +9,14 @@ from json import JSONDecodeError
 from rest_framework import status
 import os
 import requests
+from user.models import User
 
-User = settings.AUTH_USER_MODEL
 BASE_URL = settings.BASE_URL
 
 KAKAO_CALLBACK_URI = BASE_URL + 'api/user/kakao/callback/'
 
 
 def kakao_login(request):
-    email = ""
-    user = User.objects.get(email=email)
     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
     return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code&scope=account_email")
 
@@ -57,7 +55,6 @@ def kakao_callback(request):
     try:
         # 전달받은 이메일로 등록된 유저가 있는지 탐색
         user = User.objects.get(email=email)
-
         # FK로 연결되어 있는 socialaccount 테이블에서 해당 이메일의 유저가 있는지 확인
         social_user = SocialAccount.objects.get(user=user)
 
@@ -76,10 +73,11 @@ def kakao_callback(request):
             return JsonResponse({'err_msg': 'failed to signin'}, status=accept_status)
 
         accept_json = accept.json()
-        accept_json.pop('user', None)
+        # accept_json.pop('user', None)
+        print(accept_json)
         return JsonResponse(accept_json)
 
-    except AttributeError:
+    except User.DoesNotExist:
         # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
         accept = requests.post(
@@ -91,7 +89,7 @@ def kakao_callback(request):
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
 
         accept_json = accept.json()
-        accept_json.pop('user', None)
+        # accept_json.pop('user', None)
         return JsonResponse(accept_json)
 
     except SocialAccount.DoesNotExist:
