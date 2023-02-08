@@ -10,6 +10,7 @@ from rest_framework import status
 import os
 import requests
 from user.models import User
+from application.models import Application
 
 BASE_URL = settings.BASE_URL
 
@@ -74,7 +75,6 @@ def kakao_callback(request):
 
         accept_json = accept.json()
         # accept_json.pop('user', None)
-        print(accept_json)
         return JsonResponse(accept_json)
 
     except User.DoesNotExist:
@@ -89,7 +89,11 @@ def kakao_callback(request):
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
 
         accept_json = accept.json()
-        # accept_json.pop('user', None)
+
+        #회원가입 후 지원서 모델 생성
+        ap_user = User.objects.get(id=accept_json['user']['id'])
+        Application(user=ap_user).save()
+        
         return JsonResponse(accept_json)
 
     except SocialAccount.DoesNotExist:
