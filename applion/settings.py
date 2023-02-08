@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # application
     'user.apps.UserConfig',
     'kakaouser.apps.KakaouserConfig',
+    'application.apps.ApplicationConfig',
 
     # DRF
     'rest_framework',
@@ -73,9 +74,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     "REGISTER_SERIALIZER": "user.serializers.SignupSerializer"
-# }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "user.serializers.SignupSerializer"
+}
 
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "user.serializers.DetailSerializer"
