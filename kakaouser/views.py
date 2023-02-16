@@ -11,6 +11,7 @@ import requests
 from user.models import User
 from application.models import Application
 
+BASE_URL = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/'
 KAKAO_CALLBACK_URI = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/api/user/kakao/callback/'
 
 def kakao_login(request):
