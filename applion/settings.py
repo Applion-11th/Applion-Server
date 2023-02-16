@@ -1,24 +1,56 @@
-import dotenv
+# import dotenv
+# import os
+# from pathlib import Path
+# from datetime import timedelta
+
+# BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_URL = 'http://127.0.0.1:8000/'
+
+# dotenv_file = os.path.join(BASE_DIR, ".env")
+# if os.path.isfile(dotenv_file):
+#     dotenv.load_dotenv(dotenv_file)
+
+# SOCIAL_AUTH_KAKAO_CLIENT_ID = os.environ['SOCIAL_AUTH_KAKAO_CLIENT_ID']
+# SOCIAL_AUTH_KAKAO_SECRET = os.environ['SOCIAL_AUTH_KAKAO_SECRET']
+# SECRET_KEY = os.environ['DJANGO_SECRET']
+
 import os
 from pathlib import Path
 from datetime import timedelta
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_URL = 'http://127.0.0.1:8000/'
 
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
+def get_env_variable(var_name):
+  try:
+    return os.environ[var_name]
+  except KeyError:
+    error_msg = 'Set the {} environment variable'.format(var_name)
+    raise ImproperlyConfigured(error_msg)
 
-SOCIAL_AUTH_KAKAO_CLIENT_ID = os.environ['SOCIAL_AUTH_KAKAO_CLIENT_ID']
-SOCIAL_AUTH_KAKAO_SECRET = os.environ['SOCIAL_AUTH_KAKAO_SECRET']
-SECRET_KEY = os.environ['SECRET_KEY']
+SOCIAL_AUTH_KAKAO_CLIENT_ID = get_env_variable('SOCIAL_AUTH_KAKAO_CLIENT_ID')
+SOCIAL_AUTH_KAKAO_SECRET = get_env_variable('SOCIAL_AUTH_KAKAO_SECRET')
+SECRET_KEY = get_env_variable('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# CORS 관련 추가 
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    # 프론트 주소 추가
+]
 
+# CSRF 관련 추가
+CSRF_TRUSTED_ORIGINS = [
+    'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app',
+    #프론트 주소 추가
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -116,6 +148,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -179,7 +212,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -192,6 +225,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
