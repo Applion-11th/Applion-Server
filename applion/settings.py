@@ -48,6 +48,7 @@ CORS_ORIGIN_WHITELIST = [
 # CSRF 관련 추가
 CSRF_TRUSTED_ORIGINS = [
     'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app',
+    'http://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app'
     #프론트 주소 추가
 ]
 
