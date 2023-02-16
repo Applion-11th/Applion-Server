@@ -7,5 +7,4 @@ from rest_framework.permissions import IsAuthenticated
 class ApplicationViewSet(ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-    permission_classes = [IsAuthenticated,]
-    # lookup_field = email
+    permission_classes = [ IsAuthenticated, ]

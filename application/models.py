@@ -8,6 +8,7 @@ class Application(models.Model):
     app2 = models.TextField(null=True)
     app3 = models.TextField(null=True)
     app4 = models.TextField(null=True)
+    github = models.CharField(max_length=100, null=True)
 
     objects = models.Manager()
 
