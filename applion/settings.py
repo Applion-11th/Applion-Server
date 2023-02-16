@@ -33,7 +33,7 @@ SOCIAL_AUTH_KAKAO_SECRET = get_env_variable('SOCIAL_AUTH_KAKAO_SECRET')
 SECRET_KEY = get_env_variable('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # CORS 관련 추가 
 ALLOWED_HOSTS = ['*']
