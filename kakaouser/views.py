@@ -27,6 +27,7 @@ def kakao_callback(request):
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&code={code}")
     token_response_json = token_request.json()
+    print(token_response_json)
 
     # 에러 발생 시 중단
     error = token_response_json.get("error", None)
