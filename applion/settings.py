@@ -20,7 +20,6 @@ from datetime import timedelta
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_URL = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/'
 
 def get_env_variable(var_name):
   try:

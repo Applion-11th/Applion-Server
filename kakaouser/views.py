@@ -3,7 +3,6 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.kakao import views as kakao_view
 from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import redirect
-from django.conf import settings
 from django.http import JsonResponse
 from json import JSONDecodeError
 from rest_framework import status
@@ -12,10 +11,7 @@ import requests
 from user.models import User
 from application.models import Application
 
-BASE_URL = settings.BASE_URL
-
-KAKAO_CALLBACK_URI = BASE_URL + 'api/user/kakao/callback/'
-
+KAKAO_CALLBACK_URI = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/api/user/kakao/callback/'
 
 def kakao_login(request):
     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
