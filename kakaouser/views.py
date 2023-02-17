@@ -14,17 +14,17 @@ from application.models import Application
 # BASE_URL = 'http://127.0.0.1:8000/'
 # KAKAO_CALLBACK_URI = 'http://127.0.0.1:8000/api/kuser/kakao/callback/'
 BASE_URL = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/'
-KAKAO_CALLBACK_URI = 'http://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/api/kuser/kakao/callback/'
+KAKAO_CALLBACK_URI = 'https://applion11th.com/kakao/callback/'
 
-def kakao_login(request):
-    client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
-    return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code")
-
+# # 인가코드는 프론트에서 받는 걸로 수정
+# def kakao_login(request):
+#     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
+#     return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code")
 
 def kakao_callback(request):
     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
     code = request.GET.get("code")
-
+    print(request.GET)
     # code로 access token 요청
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&code={code}")
@@ -59,8 +59,7 @@ def kakao_callback(request):
 
         # 이미 카카오로 제대로 가입된 유저 => 로그인 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
-        accept = requests.post(
-            f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
+        accept = requests.post(f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
         accept_status = accept.status_code
 
         # 뭔가 중간에 문제가 생기면 에러
@@ -74,14 +73,12 @@ def kakao_callback(request):
     except User.DoesNotExist:
         # 전달받은 닉네임으로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
-        accept = requests.post(
-            f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
+        accept = requests.post(f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
         accept_status = accept.status_code
 
         # 뭔가 중간에 문제가 생기면 에러
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
-
         accept_json = accept.json()
 
         #회원가입 후 지원서 모델 생성
