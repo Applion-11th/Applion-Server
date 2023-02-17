@@ -11,13 +11,14 @@ class IDCheckView(RetrieveAPIView):
     permission_classes = (AllowAny,)
 
     def retrieve(self, request, *args, **kwargs):
-        username = self.request.data['username']
+        # username = self.request.data['username']
+        username = kwargs['id']
         try :
             instance = dict()
             User.objects.get(username=username)
-            instance['is_unique'] = True
-        except User.DoesNotExist:
             instance['is_unique'] = False
+        except User.DoesNotExist:
+            instance['is_unique'] = True
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
