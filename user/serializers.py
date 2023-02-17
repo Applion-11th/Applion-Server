@@ -14,7 +14,7 @@ class SignupSerializer(RegisterSerializer):
 class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'name', 'student_num', 'major', 'phone_num', 'position')
+        fields = ('id', 'username', 'name', 'student_num', 'major', 'phone_num', 'position')
 
 class EmailCheckSerializer(serializers.Serializer):
     is_unique = serializers.BooleanField()

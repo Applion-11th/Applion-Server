@@ -11,12 +11,14 @@ import requests
 from user.models import User
 from application.models import Application
 
+# BASE_URL = 'http://127.0.0.1:8000/'
+# KAKAO_CALLBACK_URI = 'http://127.0.0.1:8000/api/kuser/kakao/callback/'
 BASE_URL = 'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/'
 KAKAO_CALLBACK_URI = 'http://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app/api/kuser/kakao/callback/'
 
 def kakao_login(request):
     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
-    return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code&scope=account_email")
+    return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code")
 
 
 def kakao_callback(request):
@@ -27,7 +29,6 @@ def kakao_callback(request):
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&code={code}")
     token_response_json = token_request.json()
-    print(token_response_json)
 
     # 에러 발생 시 중단
     error = token_response_json.get("error", None)
@@ -42,19 +43,14 @@ def kakao_callback(request):
         headers={"Authorization": f"Bearer {access_token}"},
     )
     profile_json = profile_request.json()
-
     kakao_account = profile_json.get("kakao_account")
-    email = kakao_account.get("email", None)  # 이메일!
-
-    # 이메일 없으면 다시 동의 받음
-    if email is None:
-        return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code&scope=account_email")
+    username = kakao_account.get("nickname", None) 
 
     # 해당 이메일 유저가 있나 확인
     try:
-        # 전달받은 이메일로 등록된 유저가 있는지 탐색
-        user = User.objects.get(email=email)
-        # FK로 연결되어 있는 socialaccount 테이블에서 해당 이메일의 유저가 있는지 확인
+        # 전달받은 닉네임으로 등록된 유저가 있는지 탐색
+        user = User.objects.get(username=username)
+        # FK로 연결되어 있는 socialaccount 테이블에서 해당 닉네임의 유저가 있는지 확인
         social_user = SocialAccount.objects.get(user=user)
 
         # 있는데 카카오계정이 아니어도 에러
@@ -76,7 +72,7 @@ def kakao_callback(request):
         return JsonResponse(accept_json)
 
     except User.DoesNotExist:
-        # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
+        # 전달받은 닉네임으로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
         accept = requests.post(
             f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
