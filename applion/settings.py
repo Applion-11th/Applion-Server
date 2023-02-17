@@ -2,6 +2,7 @@
 # import os
 # from pathlib import Path
 # from datetime import timedelta
+# from django.core.exceptions import ImproperlyConfigured
 
 # BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_URL = 'http://127.0.0.1:8000/'
@@ -90,7 +91,8 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
 AUTH_USER_MODEL = 'user.User'
 ACCOUNT_USER_MODEL_EMAIL_FIELD = None  # email 필드 사용 x
-ACCOUNT_EMAIL_REQUIRED = False        
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'  
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False # 이거 해도 안먹음 ㅠㅠ
 
@@ -195,16 +197,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        # 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        # 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        # 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
