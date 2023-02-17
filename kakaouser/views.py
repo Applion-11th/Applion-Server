@@ -21,10 +21,10 @@ KAKAO_CALLBACK_URI = 'https://applion11th.com/kakao/callback/'
 #     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
 #     return redirect(f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code")
 
-def kakao_callback(request):
+def kakao_callback(request, **kwargs):
     client_id = os.environ.get("SOCIAL_AUTH_KAKAO_CLIENT_ID")
-    code = request.GET.get("code")
-    print(request.GET)
+    code = kwargs['code']
+
     # code로 access token 요청
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={KAKAO_CALLBACK_URI}&code={code}")
