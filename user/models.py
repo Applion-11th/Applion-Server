@@ -39,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #이름, 학번, 전공, 전화번호, 포지션
     name = models.CharField(default="", null=True, blank=True, max_length=100)
     student_num = models.CharField(default="", null=True, blank=True, max_length=100)
+    semester = models.CharField(default="", null=True, blank=True, max_length=100)
     major = models.CharField(default="", null=True, blank=True, max_length=100)
     phone_num = models.CharField(default="", null=True, blank=True, max_length=100)
     position = models.CharField(default="", null=True, blank=True, max_length=100)
