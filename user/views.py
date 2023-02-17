@@ -15,9 +15,9 @@ class IDCheckView(RetrieveAPIView):
         try :
             instance = dict()
             User.objects.get(username=username)
-            instance['is_unique'] = False
-        except User.DoesNotExist:
             instance['is_unique'] = True
+        except User.DoesNotExist:
+            instance['is_unique'] = False
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
