@@ -16,5 +16,5 @@ class DetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'name', 'student_num', 'major', 'phone_num', 'position')
 
-class EmailCheckSerializer(serializers.Serializer):
+class IDCheckSerializer(serializers.Serializer):
     is_unique = serializers.BooleanField()
