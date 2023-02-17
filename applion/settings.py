@@ -89,11 +89,10 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
 AUTH_USER_MODEL = 'user.User'
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # username 필드 사용 x
-ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
-ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = "none"  # 회원가입 과정에서 이메일 인증 사용 X
+ACCOUNT_USER_MODEL_EMAIL_FIELD = None  # email 필드 사용 x
+ACCOUNT_EMAIL_REQUIRED = False        
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False # 이거 해도 안먹음 ㅠㅠ
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
