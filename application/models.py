@@ -4,6 +4,7 @@ from django.conf import settings
 
 class Application(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='Application', primary_key=True)
+    updated_at = models.DateTimeField(auto_now=True)
     app1 = models.TextField(null=True, blank=True)
     app2 = models.TextField(null=True, blank=True)
     app3 = models.TextField(null=True, blank=True)
