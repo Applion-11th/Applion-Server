@@ -49,9 +49,9 @@ def kakao_callback(request):
 
     # 해당 이메일 유저가 있나 확인
     try:
-        # 전달받은 이메일로 등록된 유저가 있는지 탐색
+        # 전달받은 닉네임으로 등록된 유저가 있는지 탐색
         user = User.objects.get(username=username)
-        # FK로 연결되어 있는 socialaccount 테이블에서 해당 이메일의 유저가 있는지 확인
+        # FK로 연결되어 있는 socialaccount 테이블에서 해당 닉네임의 유저가 있는지 확인
         social_user = SocialAccount.objects.get(user=user)
 
         # 있는데 카카오계정이 아니어도 에러
@@ -73,7 +73,7 @@ def kakao_callback(request):
         return JsonResponse(accept_json)
 
     except User.DoesNotExist:
-        # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
+        # 전달받은 닉네임으로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
         accept = requests.post(
             f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
