@@ -1,26 +1,14 @@
-# import dotenv
-# import os
-# from pathlib import Path
-# from datetime import timedelta
-# from django.core.exceptions import ImproperlyConfigured
-
-# BASE_DIR = Path(__file__).resolve().parent.parent
-# BASE_URL = 'http://127.0.0.1:8000/'
-
-# dotenv_file = os.path.join(BASE_DIR, ".env")
-# if os.path.isfile(dotenv_file):
-#     dotenv.load_dotenv(dotenv_file)
-
-# SOCIAL_AUTH_KAKAO_CLIENT_ID = os.environ['SOCIAL_AUTH_KAKAO_CLIENT_ID']
-# SOCIAL_AUTH_KAKAO_SECRET = os.environ['SOCIAL_AUTH_KAKAO_SECRET']
-# SECRET_KEY = os.environ['DJANGO_SECRET']
-
-import os
+import os, dotenv
 from pathlib import Path
 from datetime import timedelta
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# # 로컬에서 테스트할 때 이거 주석 해제하기
+# dotenv_file = os.path.join(BASE_DIR, ".env")
+# if os.path.isfile(dotenv_file):
+#     dotenv.load_dotenv(dotenv_file)
 
 def get_env_variable(var_name):
   try:
@@ -184,9 +172,24 @@ WSGI_APPLICATION = 'applion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-from . import my_settings
+# from . import my_settings
 
-DATABASES = my_settings.DATABASES
+# DATABASES = my_settings.DATABASES
+DATABASES = {
+    'default': {
+        'ENGINE'   : 'django.db.backends.mysql',
+        'NAME'     : get_env_variable('DB_NAME'),
+        'USER'     : get_env_variable('DB_USER'),
+        'PASSWORD' : get_env_variable('DB_PASSWORD'),
+        'HOST'     : get_env_variable('DB_HOST'),
+        'OPTIONS'  : {'charset': 'utf8mb4'},
+        'PORT': get_env_variable('DB_PORT'),
+	# 'TEST': {
+	# 'CHARSET'  : 'utf8mb4',
+	# 'COLLATION': 'utf8_general_ci'
+	# }
+    }
+}
 
 
 # Password validation
