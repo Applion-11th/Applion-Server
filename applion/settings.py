@@ -22,16 +22,17 @@ SOCIAL_AUTH_KAKAO_SECRET = get_env_variable('SOCIAL_AUTH_KAKAO_SECRET')
 SECRET_KEY = get_env_variable('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # CORS 관련 추가 
 ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://localhost:3000',
     # 프론트 주소 추가
+    'https://applion11th.com',
 ]
 
 # CSRF 관련 추가
@@ -39,6 +40,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app',
     'http://port-0-applion-server-108dypx2ale6pqivi.sel3.cloudtype.app'
     #프론트 주소 추가
+    'https://applion11th.com',
 ]
 
 # Application definition
