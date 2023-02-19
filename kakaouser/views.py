@@ -72,9 +72,7 @@ def kakao_callback(request, **kwargs):
 
     except User.DoesNotExist:
         # 전달받은 닉네임으로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
-        print("유저네임", username)
-        data = {'access_token': access_token, 'code': code, 'user': {'username': username}}
-        print("데이타 : ", data)
+        data = {'access_token': access_token, 'code': code}
         accept = requests.post(f"{BASE_URL}api/kuser/kakao/login/finish/", data=data)
         accept_status = accept.status_code
 
@@ -82,10 +80,16 @@ def kakao_callback(request, **kwargs):
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
         accept_json = accept.json()
-        print("이거 뜨면 백 문제임")
+
         #회원가입 후 지원서 모델 생성
+        
         ap_user = User.objects.get(id=accept_json['user']['id'])
-        Application(user=ap_user).save()
+        try:
+            Application.objects.get(user=accept_json['user']['id'])
+            print("있다!!!!")
+        except Application.DoesNotExist:
+            Application(user=ap_user).save()
+            print("없다!!")
         
         return JsonResponse(accept_json)
 
