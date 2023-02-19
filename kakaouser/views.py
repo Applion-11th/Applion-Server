@@ -80,7 +80,7 @@ def kakao_callback(request, **kwargs):
         if accept_status != 200:
             return JsonResponse({'err_msg': 'failed to signup'}, status=accept_status)
         accept_json = accept.json()
-
+        print("이거 뜨면 백 문제임")
         #회원가입 후 지원서 모델 생성
         ap_user = User.objects.get(id=accept_json['user']['id'])
         Application(user=ap_user).save()
