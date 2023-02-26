@@ -82,14 +82,11 @@ def kakao_callback(request, **kwargs):
         accept_json = accept.json()
 
         #회원가입 후 지원서 모델 생성
-        
         ap_user = User.objects.get(id=accept_json['user']['id'])
         try:
             Application.objects.get(user=accept_json['user']['id'])
-            print("있다!!!!")
         except Application.DoesNotExist:
             Application(user=ap_user).save()
-            print("없다!!")
         
         return JsonResponse(accept_json)
 

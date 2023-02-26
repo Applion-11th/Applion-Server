@@ -6,13 +6,13 @@ from user.models import User
 @staff_member_required
 def Appview(request):
     #필요없는 유저 제거 연산
-    users = User.objects.exclude(username__isnull=True)
+    users = User.objects.exclude(name="")
     users = users.exclude(Application__app1__isnull=True)
 
     student_data = list()
     for user in users:
         student = dict()
-        student['name'] = user.username
+        student['name'] = user.name
         student['major'] = user.major
         student['student_num'] = user.student_num
         student['semester'] = user.semester
@@ -28,5 +28,5 @@ def Appview(request):
         student_data.append(student)
     
     context = {'student_data': student_data}
-    
+
     return render(request, 'index.html', context)
