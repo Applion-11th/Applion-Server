@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/user/', include("allauth.urls")),
     path('api/kuser/', include("kakaouser.urls")),
     path('api/application/', include("application.urls")),
+    path('viewapp/', include("viewapp.urls")),
 ]
