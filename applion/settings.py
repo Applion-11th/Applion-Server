@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'kakaouser.apps.KakaouserConfig',
     'application.apps.ApplicationConfig',
+    'viewapp.apps.ViewappConfig',
 
     # DRF
     'rest_framework',
