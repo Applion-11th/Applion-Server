@@ -3,6 +3,12 @@ from django.contrib.admin.views.decorators import staff_member_required
 from user.models import User
 import csv
 
+#필요없는 유저 제거 연산
+users = User.objects.exclude(name="").exclude(Application__app1__isnull=True)
+# 글자 수 미달 유저 제거
+users = users.exclude(name="황연준").exclude(name="이진우")
+
+
 def get_user_info(users):
     student_data = list()
     for user in users:
@@ -26,10 +32,6 @@ def get_user_info(users):
 
 
 def get_user_stat():
-    #필요없는 유저 제거 연산
-    users = User.objects.exclude(name="")
-    users = users.exclude(Application__app1__isnull=True)
-
     student_stat = dict()
     student_stat['all'] = users.count()
     student_stat['backends'] = users.filter(position='백엔드').count()
@@ -40,10 +42,6 @@ def get_user_stat():
 
 @staff_member_required
 def Appview(request):
-    #필요없는 유저 제거 연산
-    users = User.objects.exclude(name="")
-    users = users.exclude(Application__app1__isnull=True)
-
     student_data = get_user_info(users)
     student_stat = get_user_stat()
     context = {'student_data': student_data, 'student_stat': student_stat}
@@ -53,11 +51,7 @@ def Appview(request):
 
 @staff_member_required
 def Backview(request):
-    #필요없는 유저 제거 연산
-    users = User.objects.exclude(name="").filter(position='백엔드')
-    users = users.exclude(Application__app1__isnull=True)
-
-    student_data = get_user_info(users)
+    student_data = get_user_info(users.filter(position='백엔드'))
     student_stat = get_user_stat()
     context = {'student_data': student_data, 'student_stat': student_stat}
 
@@ -66,11 +60,7 @@ def Backview(request):
 
 @staff_member_required
 def Frontview(request):
-    #필요없는 유저 제거 연산
-    users = User.objects.exclude(name="").filter(position='프론트엔드')
-    users = users.exclude(Application__app1__isnull=True)
-
-    student_data = get_user_info(users)
+    student_data = get_user_info(users.filter(position='프론트엔드'))
     student_stat = get_user_stat()
     context = {'student_data': student_data, 'student_stat': student_stat}
 
@@ -78,10 +68,6 @@ def Frontview(request):
 
 # 로컬 전용
 def make_csv(request):
-    #필요없는 유저 제거 연산
-    users = User.objects.exclude(name="")
-    users = users.exclude(Application__app1__isnull=True)
-
     # csv 파일에 쓸 데이터
     data = [['이름', '학번', '전공', '핸드폰 번호'], ]
 
