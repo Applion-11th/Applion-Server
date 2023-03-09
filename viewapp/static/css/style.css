@@ -13,6 +13,12 @@ h1 {
     color: #333;
 }
 
+p {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 /* main section style */
 main {
     display: flex;
