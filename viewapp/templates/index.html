@@ -8,7 +8,11 @@
    </head>
    <body>
       <header>
-         <h1>학생 지원서 정보</h1>
+         <h1>
+            <a href="{% url 'Appview' %}">총 지원자 수 : {{ student_stat.all }}명</a><br>
+            <a href="{% url 'Frontview' %}">프론트엔드 지원자 수 : {{ student_stat.frontends }}명</a><br>
+            <a href="{% url 'Backview' %}">백엔드 지원자 수 : {{ student_stat.backends }}명</a><br>
+         </h1>
       </header>
       <main>
          {% for student in student_data %}
